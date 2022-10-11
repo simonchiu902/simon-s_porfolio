@@ -1,0 +1,95 @@
+--COVID19 DATASET
+-- 1. get US top 10 Province States with highest covid confirmed cases
+SELECT lookup_table.Province_State,
+       SUM(Confirmed) AS Confirmed
+    FROM daily_report
+    JOIN lookup_table
+      ON daily_report.Combined_Key = lookup_table.Combined_Key
+  WHERE lookup_table.Country_Region = 'US'
+  GROUP BY lookup_table.Province_State
+  ORDER BY Confirmed DESC
+  LIMIT 10;
+
+--2. get confirmed and death cases in TW, JP, CN, SK, SIN
+SELECT lookup_table.Country_Region,
+       SUM(Confirmed) AS Confirmed,
+       SUM(Deaths) AS Deaths
+    FROM daily_report
+    JOIN lookup_table
+      ON daily_report.Combined_Key = lookup_table.Combined_Key
+  WHERE lookup_table.Country_Region IN ('Taiwan','Japan','Korea, South','Singapore','China')
+  GROUP BY lookup_table.Country_Region;
+  
+--IMDB DATASET (movie)
+--1. filter the director appearing the most 
+SELECT director,
+       count
+   FROM (SELECT director,
+                COUNT(*) AS count
+            FROM movies
+           GROUP BY director) AS count_by_directors
+  WHERE count = (SELECT MAX(count)
+                    FROM (SELECT director,
+                                  COUNT(*) AS count
+                              FROM movies
+                            GROUP BY director) AS count_by_directors);
+                            
+--2. find the actors of Batman Trilogy and The Lord of the Rings Trilogy
+SELECT CASE WHEN movies.title LIKE '% Lord of The Rings%' THEN 'The Lord of The Rings Trilogy'
+            ELSE 'Batman Trilogy' END AS trilogy,
+       actors.name AS Name
+    FROM movies
+    JOIN casting
+      ON movies.id = casting.movie_id
+    JOIN actors
+      ON casting.actor_id = actors.id
+  WHERE movies.title LIKE '% Lord of The Rings%' OR
+        movies.title LIKE '%Batman%' OR
+        movies.title LIKE '%Dark Knight%'
+  GROUP BY trilogy,
+           Name;
+  
+--NBA DATASET 
+-- 1.find the player with scoring title and the player with assist title
+SELECT players.firstName,
+       players.lastName,
+       'points' AS category,
+       career_summaries.points AS value
+   FROM players
+   JOIN career_summaries
+     ON players.personId = career_summaries.personId
+  WHERE career_summaries.personId = (SELECT personId
+                                          FROM career_summaries
+                                      WHERE points  = (SELECT MAX(points)
+                                                          FROM career_summaries))
+UNION
+SELECT players.firstName,
+       players.lastName,
+       'assists' AS category,
+       career_summaries.assists AS value
+   FROM players
+   JOIN career_summaries
+     ON players.personId = career_summaries.personId
+  WHERE career_summaries.personId = (SELECT personId
+                                          FROM career_summaries
+                                      WHERE assists  = (SELECT MAX(assists)
+                                                          FROM career_summaries));
+                                                          
+-- 2.find the numbers of players with point per game over 20 in each team
+SELECT teams.fullName AS team_name,
+       IFNULL(top_scorers_by_team.number_of_players, 0) AS number_of_players
+    FROM teams
+    LEFT JOIN (SELECT teams.fullName,
+                      COUNT(*) AS number_of_players
+                    FROM career_summaries
+                    JOIN players
+                      ON career_summaries.personId = players.personId
+                    JOIN teams
+                      ON players.teamId = teams.teamId
+                  WHERE career_summaries.ppg >= 20
+                  GROUP BY teams.fullName) AS top_scorers_by_team
+      ON teams.fullName = top_scorers_by_team.fullName
+  ORDER BY number_of_players DESC,
+           team_name;
+    
+
