@@ -1,0 +1,42 @@
+--looking at total cases vs total deaths in US
+--death_percentage decreases from 10% to 2%
+SELECT Location, date, total_cases, total_deaths, 
+       ROUND((total_deaths/total_cases)*100,2) AS death_percentage
+    FROM CovidDeaths
+  WHERE location LIKE '%states%'
+  ORDER BY 1,2;
+  
+--looking at total cases vs population in US
+--infection_percentage increases from 0.01% to 10%
+SELECT Location, date, total_cases, population, 
+       ROUND((total_cases/population)*100,2) AS infection_percentage
+    FROM CovidDeaths
+  WHERE location LIKE '%states%'
+  ORDER BY 1,2;
+  
+--looking at the highest infection count and infection rate in each country
+SELECT Location, population, MAX(total_cases) AS HighestInfectionCount,
+       MAX(ROUND((total_cases/population)*100,2)) AS infection_rate
+    FROM CovidDeaths
+  GROUP BY Location, population
+  ORDER BY infection_rate DESC;
+  
+--looking at the highest death count and death rate in each country
+--surprisingly, in top 10 countries, western countries accounts for 9 while the outbreak was in Asia.
+--I speculate it's because estern countries implement stricter regulations such as quarantine
+SELECT Location, MAX(total_deaths) AS HighestDeathCount
+    FROM CovidDeaths
+  WHERE continent IS NOT NULL
+  GROUP BY Location
+  ORDER BY HighestDeathCount DESC;
+  
+--break things down to continent
+SELECT continent, MAX(total_deaths) AS HighestDeathCount
+    FROM CovidDeaths
+  WHERE continent IS NOT NULL
+  GROUP BY continent
+  ORDER BY HighestDeathCount DESC;
+  
+
+
+
