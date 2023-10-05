@@ -5,4 +5,4 @@ This project is to build a machine learning model that predicts which Tweets are
 
 3. Refence Link: https://github.com/MahalavanyaSriram/Natural-Language-Processing-with-Disaster-Tweets/tree/master/Jupyter%20Notebooks
 
-4. Status: Updating (Lastest Update: 02/10/2023)
+4. Status: Updating (Lastest Update: 05/10/2023)
