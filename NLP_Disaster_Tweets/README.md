@@ -1,6 +1,5 @@
 1. Discription:
 This project is to build a machine learning model that predicts which Tweets are about real disasters to to assist government in detecting emergency. Several NLP techniques (BOW, TF-IDF, Sentence Embedding, Sentiment Score, Topic Modelling)are applied to test which features can help model most.
-
 The sequence of notebook is this:
 * Text Processing Comparison(Count, TF-IDF, Sentence-Embedding)
 * FN&FP problem
