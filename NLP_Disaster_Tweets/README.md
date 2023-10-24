@@ -1,6 +1,13 @@
 1. Discription:
-This project is to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t by using various NLP techniques.
+This project is to build a machine learning model that predicts which Tweets are about real disasters to to assist government in detecting emergency. Several NLP techniques (BOW, TF-IDF, Sentence Embedding, Sentiment Score, Topic Modelling)are applied to test which features can help model most.
 
-2. Kaggle Competition link: https://www.kaggle.com/competitions/nlp-getting-started
+The sequence of notebook is this:
+* Text Processing Comparison(Count, TF-IDF, Sentence-Embedding)
+* FN&FP problem
+* Text Processing Comparison(with relabelled data)
+* Clasification with Topic Modeling and Sentiment Score
+* Duplication problem
 
-3. Status: Updating (Lastest Update: 05/10/2023)
+3. Kaggle Competition link: https://www.kaggle.com/competitions/nlp-getting-started
+
+4. Status: Updating (Lastest Update: 24/10/2023)
