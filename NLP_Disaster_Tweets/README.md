@@ -8,4 +8,4 @@ This project is to build a machine learning model that predicts which Tweets are
 
 2. Kaggle Competition link: https://www.kaggle.com/competitions/nlp-getting-started
 
-3. Status: Updating (Lastest Update: 24/10/2023)
+3. Status: done (Lastest Update: 24/10/2023)
